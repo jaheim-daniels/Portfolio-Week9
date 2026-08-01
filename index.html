@@ -11,10 +11,6 @@
 <link href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.3/700.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/@fontsource/geist-mono@5.0.3/index.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/@fontsource/geist-mono@5.0.3/500.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@5.0.3/index.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@5.0.3/500.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@5.0.3/600.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@5.0.3/700.css" rel="stylesheet">
 <style>
   :root{
     --bg:#05070c;
@@ -35,7 +31,7 @@
     --muted-dim:#5b6579;
     --mono:'Geist Mono', ui-monospace, monospace;
     --sans:'Geist Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --display:'Space Grotesk', var(--sans);
+    --display:'Geist Sans', var(--sans);
   }
 
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -269,11 +265,7 @@
     transition:transform 0.25s;
   }
   .goal-card:hover{transform:translateY(-3px);}
-  .goal-card.cat-critical{border-top-color:var(--amber);}
-  .goal-card.cat-communication{border-top-color:var(--green);}
   .goal-card .g-tag{font-family:var(--mono); font-size:11.5px; color:var(--blue-bright); text-transform:uppercase; letter-spacing:0.07em;}
-  .goal-card.cat-critical .g-tag{color:var(--amber-bright);}
-  .goal-card.cat-communication .g-tag{color:var(--green-bright);}
   .goal-card h4{font-size:17px;}
   .goal-card p{color:var(--muted); font-size:14px;}
 
@@ -515,20 +507,20 @@
     <h3 style="font-size:20px; margin-bottom:10px; color:var(--text);">SMART Goals</h3>
     <p style="color:var(--muted); font-size:15px; max-width:70ch; margin-bottom:32px;">Three competencies I'm developing over the course of my studies at York, each with SMART goals I'm tracking through my co-op placement.</p>
      <div class="goals-grid">
-      <div class="goal-card cat-initiative">
+      <div class="goal-card">
         <span class="g-tag">Initiative &amp; Entrepreneurship</span>
         <h4>Strengthen cloud &amp; networking credentials</h4>
         <p>Complete an industry-standard certification — CompTIA Network+, AWS Cloud Practitioner or Azure Fundamentals (AZ-900) — by the end of my co-op placement, and attend at least two CS/IT networking events, aiming to connect with two professionals or students at each.</p>
       </div>
-      <div class="goal-card cat-critical">
+      <div class="goal-card">
         <span class="g-tag">Critical Thinking &amp; Problem-Solving</span>
         <h4>Sharpen technical problem-solving</h4>
         <p>Resolve and document at least 100 technical issues spanning hardware, Microsoft 365, networking and account management during co-op, and complete 3+ networking/cloud labs or projects to add to my portfolio.</p>
       </div>
-      <div class="goal-card cat-communication">
+      <div class="goal-card">
         <span class="g-tag">Communication</span>
         <h4>Grow collaboration &amp; communication skills</h4>
-        <p>Build confidence explaining technical concepts to both technical and non-technical audiences by actively participating in team meetings and communicating troubleshooting steps during technical support</p>
+        <p>Build confidence explaining technical concepts to both technical and non-technical audiences by speaking up in team meetings and holding weekly one-on-ones with my manager to walk through my progress, then carry that growth into a student organization at York by Winter 2027, where regular collaboration with members and the public will sharpen how I present ideas.</p>
       </div> 
     </div>
   </section>
@@ -558,7 +550,7 @@
         <div class="p-stack">NETWORKING · CISCO PACKET TRACER · TCP/IP · DHCP/DNS</div>
         <h4>Network Topology Simulation <span class="status-tag">In Progress</span></h4>
         <ul>
-          <li>Building a small Cisco Packet Tracer network with a router, switch, and firewall, configuring IP addressing, subnetting, DHCP, and firewall rules to enable secure communication.</li>
+          <li>Designing and configuring a multi-router, multi-switch network topology in Cisco Packet Tracer to practice subnetting, routing and DHCP/DNS configuration</li>
         </ul>
       </div>
     </div>
@@ -570,7 +562,7 @@
     <h2 style="font-size:clamp(28px,4vw,38px); margin-bottom:32px;">Looking back at the journey so far.</h2>
     <div class="reflection-box">
       <p>Every role on this page traces back to the same starting point: a small island where reputation and character mattered more than credentials. That's still how I try to work — carefully, consistently, and with the people around me in mind.</p>
-      <p>My technical journey expanded from fiber optic work in the BVI to service desk and my current role, driven by the same curiosity, consistency, and willingness to learn. <strong>Resilience</strong> got me through the setbacks. <strong>Consistency</strong> is what turned one internship into a pattern of roles. <strong>Innovation</strong> is what keeps me looking for a better way instead of settling for a working one.</p>
+      <p>The technical skills came later — working with fiber optic cables in the BVI, service desks at York, enterprise support at Castrol-Wakefield — but the habits underneath them didn't change. <strong>Resilience</strong> got me through the setbacks. <strong>Consistency</strong> is what turned one internship into a pattern of roles. <strong>Innovation</strong> is what keeps me looking for a better way instead of settling for a working one.</p>
       <p>What I'd tell an earlier version of myself: the small work such as documenting a fix, imaging one more laptop, resetting one more password — is the actual opportunity. It's where I learned to think like the systems I now want to maintain.</p>
     </div>
   </section>
