@@ -11,6 +11,10 @@
 <link href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.3/700.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/@fontsource/geist-mono@5.0.3/index.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/@fontsource/geist-mono@5.0.3/500.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@5.0.3/index.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@5.0.3/500.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@5.0.3/600.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@5.0.3/700.css" rel="stylesheet">
 <style>
   :root{
     --bg:#05070c;
@@ -20,11 +24,18 @@
     --blue:#3b7cf6;
     --blue-bright:#6ea1ff;
     --blue-deep:#0a3fae;
+    --amber:#e59a3c;
+    --amber-bright:#ffc36b;
+    --amber-deep:#8a5a12;
+    --green:#34b884;
+    --green-bright:#6be3b4;
+    --green-deep:#0f5c40;
     --text:#eef2f9;
     --muted:#8896ab;
     --muted-dim:#5b6579;
     --mono:'Geist Mono', ui-monospace, monospace;
     --sans:'Geist Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --display:'Space Grotesk', var(--sans);
   }
 
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -59,6 +70,23 @@
     mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
   }
 
+  .glow-blob{position:fixed; border-radius:50%; filter:blur(130px); pointer-events:none; z-index:0;}
+  .glow-blob.b1{width:520px; height:520px; background:var(--blue); opacity:0.14; top:-160px; right:-160px;}
+  .glow-blob.b2{width:420px; height:420px; background:var(--green); opacity:0.08; bottom:5%; left:-160px;}
+
+  /* signature: signal rail tracking scroll depth, like fiber uptime */
+  .signal-rail{
+    position:fixed; top:0; left:16px; width:2px; height:100vh; z-index:90;
+    background:rgba(255,255,255,0.05); pointer-events:none;
+  }
+  .signal-rail-fill{
+    position:absolute; top:0; left:0; width:100%; height:0%;
+    background:linear-gradient(180deg, var(--blue-bright), var(--green-bright));
+    box-shadow:0 0 10px rgba(110,161,255,0.5);
+    transition:height 0.08s linear;
+  }
+  @media (max-width:900px){ .signal-rail{display:none;} }
+
   .wrap{position:relative; z-index:1;}
 
   /* ---------- NAV ---------- */
@@ -72,7 +100,7 @@
     border-bottom:1px solid var(--line);
   }
   .logo{
-    font-family:var(--mono); font-weight:500; font-size:15px; letter-spacing:0.02em;
+    font-family:var(--display); font-weight:600; font-size:15px; letter-spacing:0.02em;
     display:flex; align-items:center; gap:8px;
   }
   .logo .dot{width:7px; height:7px; border-radius:50%; background:var(--blue); box-shadow:0 0 8px var(--blue); animation:pulse 2.4s ease-in-out infinite;}
@@ -108,6 +136,11 @@
     margin:0 auto;
     scroll-margin-top:70px;
   }
+  section:not(#home)::before{
+    content:''; position:absolute; top:64px; left:50%; transform:translateX(-50%);
+    width:140px; height:1px; background:linear-gradient(90deg, transparent, var(--blue-bright), transparent);
+    opacity:0.45;
+  }
 
   .eyebrow{
     font-family:var(--mono); font-size:12.5px; color:var(--blue-bright);
@@ -116,7 +149,7 @@
   }
   .eyebrow::before{content:''; width:22px; height:1px; background:var(--blue-bright);}
 
-  h1,h2,h3{font-weight:600; letter-spacing:-0.02em;}
+  h1,h2,h3{font-family:var(--display); font-weight:600; letter-spacing:-0.02em;}
 
   /* ---------- HOME / HERO ---------- */
   #home{
@@ -230,10 +263,17 @@
   .goals-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
   @media (max-width:820px){ .goals-grid{grid-template-columns:1fr;} }
   .goal-card{
-    background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:26px 24px;
+    background:var(--surface); border:1px solid var(--line); border-top:3px solid var(--blue);
+    border-radius:10px; padding:26px 24px;
     display:flex; flex-direction:column; gap:12px;
+    transition:transform 0.25s;
   }
+  .goal-card:hover{transform:translateY(-3px);}
+  .goal-card.cat-critical{border-top-color:var(--amber);}
+  .goal-card.cat-communication{border-top-color:var(--green);}
   .goal-card .g-tag{font-family:var(--mono); font-size:11.5px; color:var(--blue-bright); text-transform:uppercase; letter-spacing:0.07em;}
+  .goal-card.cat-critical .g-tag{color:var(--amber-bright);}
+  .goal-card.cat-communication .g-tag{color:var(--green-bright);}
   .goal-card h4{font-size:17px;}
   .goal-card p{color:var(--muted); font-size:14px;}
 
@@ -245,7 +285,17 @@
   }
   .project-card:hover{border-color:var(--blue-deep); transform:translateY(-3px);}
   .project-card .p-stack{font-family:var(--mono); font-size:11.5px; color:var(--muted-dim); margin-bottom:14px; letter-spacing:0.02em;}
-  .project-card h4{font-size:19px; margin-bottom:12px;}
+  .project-card h4{font-size:19px; margin-bottom:12px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+  .status-tag{
+    font-family:var(--mono); font-size:10.5px; font-weight:500; color:var(--amber-bright);
+    border:1px solid var(--amber-deep); background:rgba(229,154,60,0.12); padding:3px 10px 3px 8px;
+    border-radius:20px; letter-spacing:0.05em; text-transform:uppercase;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .status-tag::before{
+    content:''; width:6px; height:6px; border-radius:50%; background:var(--amber-bright);
+    box-shadow:0 0 6px var(--amber-bright); animation:pulse 1.8s ease-in-out infinite;
+  }
   .project-card ul{color:var(--muted); font-size:14px; margin-left:18px;}
   .project-card li{margin-bottom:8px;}
 
@@ -285,6 +335,9 @@
 <body>
 
 <div class="bg-grid"></div>
+<div class="glow-blob b1"></div>
+<div class="glow-blob b2"></div>
+<div class="signal-rail"><div class="signal-rail-fill" id="railFill"></div></div>
 
 <header>
   <div class="logo"><span class="dot"></span>JAHEIM.DANIELS</div>
@@ -439,11 +492,13 @@
   <section id="goals">
     <div class="eyebrow">Goals</div>
     <h2 style="font-size:clamp(28px,4vw,38px); margin-bottom:32px;">Where this path is headed.</h2>
-     <div class="goals-grid">
+
+    <h3 style="font-size:20px; margin-bottom:20px; color:var(--text);">My Goals</h3>
+    <div class="goals-grid" style="margin-bottom:56px;">
       <div class="goal-card">
         <span class="g-tag">Short-term</span>
         <h4>Deepen networking &amp; cloud fundamentals</h4>
-        <p>Build on hands-on Active Directory, AWS and Azure experience with formal certification and larger-scale infrastructure projects before the end of my co-op placement</p>
+        <p>Build on hands-on Active Directory, AWS and Azure experience with formal certification and larger-scale infrastructure projects before the end of my co-op placement.</p>
       </div>
       <div class="goal-card">
         <span class="g-tag">Mid-term</span>
@@ -454,6 +509,26 @@
         <span class="g-tag">Long-term</span>
         <h4>Lead with the same care I started with</h4>
         <p>Whatever the title, keep the same standard: solve problems thoroughly, document clearly, and help the people around me.</p>
+      </div>
+    </div>
+
+    <h3 style="font-size:20px; margin-bottom:10px; color:var(--text);">SMART Goals</h3>
+    <p style="color:var(--muted); font-size:15px; max-width:70ch; margin-bottom:32px;">Three competencies I'm developing over the course of my studies at York, each with SMART goals I'm tracking through my co-op placement.</p>
+     <div class="goals-grid">
+      <div class="goal-card cat-initiative">
+        <span class="g-tag">Initiative &amp; Entrepreneurship</span>
+        <h4>Strengthen cloud &amp; networking credentials</h4>
+        <p>Complete an industry-standard certification — CompTIA Network+, AWS Cloud Practitioner or Azure Fundamentals (AZ-900) — by the end of my co-op placement, and attend at least two CS/IT networking events, aiming to connect with two professionals or students at each.</p>
+      </div>
+      <div class="goal-card cat-critical">
+        <span class="g-tag">Critical Thinking &amp; Problem-Solving</span>
+        <h4>Sharpen technical problem-solving</h4>
+        <p>Resolve and document at least 100 technical issues spanning hardware, Microsoft 365, networking and account management during co-op, and complete 3+ networking/cloud labs or projects to add to my portfolio.</p>
+      </div>
+      <div class="goal-card cat-communication">
+        <span class="g-tag">Communication</span>
+        <h4>Grow collaboration &amp; communication skills</h4>
+        <p>Build confidence explaining technical concepts to both technical and non-technical audiences by actively participating in team meetings and communicating troubleshooting steps during technical support</p>
       </div> 
     </div>
   </section>
@@ -462,24 +537,31 @@
   <section id="work">
     <div class="eyebrow">Work Portfolio</div>
     <h2 style="font-size:clamp(28px,4vw,38px); margin-bottom:32px;">What I’ve Been Building</h2>
-    <!-- <div class="project-grid">
+    <div class="project-grid">
       <div class="project-card">
         <div class="p-stack">WINDOWS SERVER · ACTIVE DIRECTORY · GROUP POLICY · POWERSHELL · VIRTUALBOX</div>
         <h4>Active Directory Lab</h4>
         <ul>
           <li>Built a virtualized Windows Server environment, deploying a domain controller with integrated DNS and joining Windows clients to the domain</li>
-          <li>Administered users, security groups and Organizational Units while applying Group Policy Objects to manage domain-joined machines</li>
+          <li>Administered users, security groups and Organizational Units (OUs) while applying Group Policy Objects (GPOs) to manage domain-joined Windows clients</li>
         </ul>
       </div>
       <div class="project-card">
         <div class="p-stack">VERILOG · COMPUTER ARCHITECTURE · PIPELINES · ISA DESIGN</div>
         <h4>5-Stage Pipelined CPU</h4>
         <ul>
-          <li>Implemented a 5-stage pipelined CPU — Fetch, Decode, Execute, Memory Access, Writeback — enabling instruction-level parallelism</li>
-          <li>Validated functionality with a 10+ instruction RAM program, achieving 100% test coverage</li>
+          <li>Implemented a 5-stage pipelined CPU — Fetch, Decode, Execute, Memory Access, Writeback — in Verilog, enabling instruction-level parallelism to improve efficiency</li>
+          <li>Validated pipeline functionality through structured testing with a 10+ instruction RAM program, achieving 100% test coverage</li>
         </ul>
       </div>
-    </div> -->
+      <div class="project-card">
+        <div class="p-stack">NETWORKING · CISCO PACKET TRACER · TCP/IP · DHCP/DNS</div>
+        <h4>Network Topology Simulation <span class="status-tag">In Progress</span></h4>
+        <ul>
+          <li>Building a small Cisco Packet Tracer network with a router, switch, and firewall, configuring IP addressing, subnetting, DHCP, and firewall rules to enable secure communication.</li>
+        </ul>
+      </div>
+    </div>
   </section>
 
   <!-- REFLECTION -->
@@ -488,7 +570,7 @@
     <h2 style="font-size:clamp(28px,4vw,38px); margin-bottom:32px;">Looking back at the journey so far.</h2>
     <div class="reflection-box">
       <p>Every role on this page traces back to the same starting point: a small island where reputation and character mattered more than credentials. That's still how I try to work — carefully, consistently, and with the people around me in mind.</p>
-      <p>The technical skills came later — working with fiber optic cables in the BVI, service desks at York, enterprise support at Castrol-Wakefield — but the habits underneath them didn't change. <strong>Resilience</strong> got me through the setbacks. <strong>Consistency</strong> is what turned one internship into a pattern of roles. <strong>Innovation</strong> is what keeps me looking for a better way instead of settling for a working one.</p>
+      <p>My technical journey expanded from fiber optic work in the BVI to service desk and my current role, driven by the same curiosity, consistency, and willingness to learn. <strong>Resilience</strong> got me through the setbacks. <strong>Consistency</strong> is what turned one internship into a pattern of roles. <strong>Innovation</strong> is what keeps me looking for a better way instead of settling for a working one.</p>
       <p>What I'd tell an earlier version of myself: the small work such as documenting a fix, imaging one more laptop, resetting one more password — is the actual opportunity. It's where I learned to think like the systems I now want to maintain.</p>
     </div>
   </section>
@@ -539,6 +621,17 @@
     navToggle.setAttribute('aria-expanded', expanded);
   });
   navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // signal rail: tracks scroll depth like an uptime/signal indicator
+  const railFill = document.getElementById('railFill');
+  function updateRail(){
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    if(railFill) railFill.style.height = pct + '%';
+  }
+  window.addEventListener('scroll', updateRail, { passive:true });
+  updateRail();
 
   // tabs
   document.querySelectorAll('.tab-btn').forEach(btn => {
